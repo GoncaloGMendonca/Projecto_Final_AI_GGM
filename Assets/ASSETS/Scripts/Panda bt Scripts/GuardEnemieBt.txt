@@ -1,0 +1,46 @@
+tree("Root")
+	fallback 
+		tree("Idle")
+		tree("ChasePlayerTree")
+		tree("CantSeePlayer")
+		tree("LostPlayer")
+		tree("GoPosition")
+
+
+tree("Idle")
+	while Idle
+		Idling   
+
+		
+tree("ChasePlayerTree")
+		sequence			    
+			CanSeePlayerTask			
+			AlertNearEnemies
+			while CanSeePlayer	
+					sequence
+							parallel
+									repeat tree("Firebullet")
+									repeat ChaseThePlayerTask
+									repeat CanSeePlayerTask
+									repeat CloseAllDoors
+							
+		
+
+tree("Firebullet")
+			ShootingBullet		
+
+tree("CantSeePlayer")
+	sequence
+		CantSeePlayerTask
+
+tree("GoPosition")
+	while returningPoint
+		GoBackToOriginPosition  
+
+
+tree("LostPlayer")
+	sequence	
+		parallel
+			LostPlayerPanic
+			while CanSeePlayer
+				tree("ChasePlayerTree")

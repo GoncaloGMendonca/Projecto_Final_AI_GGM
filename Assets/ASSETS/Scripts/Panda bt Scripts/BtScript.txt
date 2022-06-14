@@ -1,0 +1,53 @@
+tree("Root")
+	fallback 
+		  tree("PatrolAroundPoints")
+		  tree("AlertEnemiesToHelp")
+		  tree("ChasePlayerTree")	
+		  tree("CantSeePlayer")
+	  	  tree("LostPlayer")
+
+
+  
+tree("PatrolAroundPoints")
+	while isPatrolling 
+		sequence
+				PatrollingAroundPoints
+				CanSeePlayerTask
+
+
+tree("AlertEnemiesToHelp")
+	while alertEnemieHelp
+		AlertNearEnemies
+		
+
+tree("ChasePlayerTree")
+		sequence		
+			CanSeePlayerTask			//devolve CanSeePlayer = true/false
+			while CanSeePlayer		
+				sequence
+					parallel
+						repeat tree("Firebullet")
+						repeat ChaseThePlayerTask
+						repeat CanSeePlayerTask									
+		   
+
+
+ tree("Firebullet")
+			ShootingBullet			  
+
+tree("CantSeePlayer")
+	sequence
+		CantSeePlayerTask
+
+
+tree("LostPlayer")
+	sequence		
+		LostPlayerPanic
+		CheckingPlayer
+		Wait 2.0
+		CanSeePlayerTask 
+		Wait 2.0
+		LostPlayerPanic
+		CheckingPlayer
+		Wait 2.0
+		CanSeePlayerTask 
